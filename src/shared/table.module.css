@@ -1,0 +1,46 @@
+.table {
+  min-width: 100%;
+  padding: 1rem;
+  border-collapse: collapse;
+  text-align: left;
+}
+
+.table__root {
+  overflow-x: auto;
+  max-width: 100%;
+}
+
+.table__head, 
+.table__caption {
+  border-bottom: 1px solid #E7D15C;
+}
+
+.table__heading {
+  padding: 0.5rem 0;
+  vertical-align: bottom;
+}
+
+.table__caption {
+  padding-bottom: 0.5rem;
+  text-align: left;
+  font-weight: bold;
+}
+
+.table__cell {
+  padding: 1rem 0;
+  vertical-align: top;
+}
+
+.table__cell,
+.table__heading {
+  padding-left: 1rem;
+  padding-right: 1rem;
+}
+
+:not(.table__head) > .table__row {
+  border-bottom: 1px solid #E4E4E4;
+}
+
+:not(.table__head) > .table__row:hover {
+  background-color: rgb(228, 228, 228, 0.5);
+}

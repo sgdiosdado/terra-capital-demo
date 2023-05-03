@@ -1,0 +1,21 @@
+
+.aside {
+  padding: 1rem;
+  background-color: #6E7664;
+}
+
+.menu {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  color: white;
+  list-style: none;
+  padding-left: 0;
+  margin-bottom: 0;
+}
+
+.menu__item {
+  display: flex;
+  gap: 1rem;
+  white-space: nowrap;
+}
