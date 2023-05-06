@@ -1,0 +1,10 @@
+.background {
+  min-height: 100vh;
+  display: flex;
+  align-items: stretch;
+  background: linear-gradient(
+    160deg, 
+    #fff 0%, #fff 50%,
+    #ECEDEA 50%, #ECEDEA 100%
+  );
+}
