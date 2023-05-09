@@ -1,8 +1,11 @@
-import { FileIcon, FileTextIcon, ImageIcon } from '@radix-ui/react-icons';
+import { ExitIcon, FileIcon, FileTextIcon, ImageIcon } from '@radix-ui/react-icons';
 import { Link } from 'react-router-dom';
 import classes from './sidebar.module.css';
+import { useAuth } from '../auth/auth-context';
 
 export function Sidebar() {
+  const { logout } = useAuth()
+  
   return (
     <aside className={classes.aside}>
       <Link to="/">
@@ -30,6 +33,9 @@ export function Sidebar() {
         <li className={classes.menu__item}>
           <ImageIcon />
           <span>Desarrollos</span>
+        </li>
+        <li className={classes.menu__item} onClick={logout}>
+          Logout <ExitIcon/>
         </li>
       </ul>
     </aside>

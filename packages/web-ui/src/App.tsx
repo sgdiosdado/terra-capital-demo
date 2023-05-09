@@ -1,32 +1,45 @@
-import { RouterProvider, createBrowserRouter } from 'react-router-dom'
+import { Outlet, RouterProvider, createBrowserRouter } from 'react-router-dom'
 import { MainLayout } from './shared/main-layout'
 import { Dashboard } from './dashboard/page'
 import { Pending } from './accounting/pending-list'
 import { Login } from './auth/login'
 import { AuthProvider } from './auth/auth-context'
 import { ProtectedRoute } from './auth/protected-route'
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
+
+const queryClient = new QueryClient()
 
 const router = createBrowserRouter([
   {
-    path: '/login',
-    element: <Login />,
-  },
-  {
-    path: '/',
     index: false,
     element: (
-      <ProtectedRoute>
-        <MainLayout />
-      </ProtectedRoute>
+      <AuthProvider>
+        <Outlet />
+      </AuthProvider>
     ),
     children: [
       {
-        index: true,
-        element: <Dashboard />,
+        path: '/login',
+        element: <Login />,
       },
       {
-        path: 'pending',
-        element: <Pending />,
+        path: '/',
+        index: false,
+        element: (
+          <ProtectedRoute>
+            <MainLayout />
+          </ProtectedRoute>
+        ),
+        children: [
+          {
+            index: true,
+            element: <Dashboard />,
+          },
+          {
+            path: 'pending',
+            element: <Pending />,
+          },
+        ],
       },
     ],
   },
@@ -34,9 +47,9 @@ const router = createBrowserRouter([
 
 function App() {
   return (
-    <AuthProvider>
+    <QueryClientProvider client={queryClient}>
       <RouterProvider router={router} />
-    </AuthProvider>
+    </QueryClientProvider>
   )
 }
 

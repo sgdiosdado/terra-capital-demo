@@ -1,13 +1,17 @@
-import { useNavigate } from 'react-router-dom';
-import classes from './login.module.css';
+import classes from './login.module.css'
+import { useAuth } from './auth-context'
 
 export function Login() {
-  const navigate = useNavigate();
+  const { login } = useAuth()
 
-  return <div className={classes.background}>
-    <main>
-      <h1>Welcome!</h1>
-      <button type='button' onClick={() => navigate('/')}>Login</button>
-    </main>
-  </div>
+  return (
+    <div className={classes.background}>
+      <main>
+        <h1>Welcome!</h1>
+        <button type="button" onClick={login}>
+          Login
+        </button>
+      </main>
+    </div>
+  )
 }
