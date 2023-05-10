@@ -21,5 +21,6 @@ app.use(passport.session())
 app.use('/api', router)
 
 app.listen(PORT, function () {
+  console.clear()
   console.log(`App is listening on port ${PORT}!`)
 })

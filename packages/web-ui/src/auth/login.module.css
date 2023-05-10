@@ -1,10 +1,21 @@
 .background {
   min-height: 100vh;
   display: flex;
-  align-items: stretch;
+  align-items: center;
+  justify-content: center;
   background: linear-gradient(
     160deg, 
     #fff 0%, #fff 50%,
     #ECEDEA 50%, #ECEDEA 100%
   );
+}
+
+.login {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  padding: 2rem;
+  width: 400px;
+  background-color: #A3A495;
+  border-radius: 1rem;
 }

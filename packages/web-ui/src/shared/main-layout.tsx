@@ -1,14 +1,14 @@
-import { Outlet } from 'react-router-dom';
 import classes from './main-layout.module.css';
 import { Sidebar } from './sidebar';
+import { ReactNode } from 'react';
 
-export function MainLayout() {
+export function MainLayout({ children }: { children : ReactNode}) {
   return <div className={classes.background}>
    
     <Sidebar/>
 
     <main className={classes.main}>
-      <Outlet />
+      { children }
     </main>
   </div>
 }

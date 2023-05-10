@@ -19,14 +19,14 @@ export const useAuth = () => {
     logout: contextLogout,
   } = useContext(AuthContext)
 
-  const login = async () => {
+  const login = async ({ username, password }: { username: string, password: string}) => {
     try {
       const res = await fetch('/api/auth/login', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ username: 'sergio', password: '12345' }),
+        body: JSON.stringify({ username, password }),
         credentials: 'include',
       }).then(res => {
         if (!res.ok) throw new Error(`Some error ${res.body}`)

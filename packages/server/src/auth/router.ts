@@ -7,7 +7,7 @@ import session from 'express-session'
 const USERS = [
   {
     id: 1,
-    username: 'sergio',
+    username: 'sergio@mail.com',
     salt: 'sergio',
     password: crypto.pbkdf2Sync('12345', 'sergio', 310000, 32, 'sha256'),
   },
