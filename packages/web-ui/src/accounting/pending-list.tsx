@@ -3,22 +3,28 @@ import {
   createColumnHelper,
   flexRender,
   getCoreRowModel,
-  useReactTable
-} from '@tanstack/react-table';
+  useReactTable,
+} from '@tanstack/react-table'
 
-import { Dialog } from '../shared/dialog';
-import * as Table from '../shared/table';
-import { currencyFormatter } from '../shared/formatters';
-import { Pill } from '../shared/pill';
-import { usePendingSpendings, type PendingSpendings } from './usePendingSpendings';
+import { Dialog } from '../shared/dialog'
+import * as Table from '../shared/table'
+import { currencyFormatter } from '../shared/formatters'
+import { Pill } from '../shared/pill'
+import {
+  usePendingSpendings,
+  type PendingSpendings,
+} from './usePendingSpendings'
+import { Field, Label, Input } from '../shared/forms'
+import { FormEvent, SyntheticEvent } from 'react'
+import { Button } from '../shared/button'
 
 declare module '@tanstack/table-core' {
   interface ColumnMeta<TData extends RowData, TValue> {
-    align?: 'left' | 'center' | 'right';
+    align?: 'left' | 'center' | 'right'
   }
 }
 
-const columnHelper = createColumnHelper<PendingSpendings>();
+const columnHelper = createColumnHelper<PendingSpendings>()
 
 const columns = [
   columnHelper.accessor('development', {
@@ -46,17 +52,24 @@ const columns = [
       </Pill>
     ),
   }),
-];
+]
 
 export function Pending() {
-
-  const { data } = usePendingSpendings();
+  const { data } = usePendingSpendings()
 
   const table = useReactTable<PendingSpendings>({
     data,
     columns,
     getCoreRowModel: getCoreRowModel(),
-  });
+  })
+
+  const onSubmit = (event: FormEvent<HTMLFormElement>) => {
+    event.preventDefault()
+    const formData = new FormData(event.currentTarget)
+    const data = Object.fromEntries(formData)
+
+    console.log(data)
+  }
 
   return (
     <div style={{ display: 'flex', flexDirection: 'column', gap: '2rem' }}>
@@ -96,11 +109,20 @@ export function Pending() {
       </Table.Root>
 
       <Dialog trigger={<button type="button">Detalle de gasto</button>}>
-        <p>Desarrollo: Villa dorada</p>
-        <p>Sección: Sección 1</p>
-        <p>Lote: EMP-90183</p>
-        <p>Vendedor: José Rodríguez Rodríguez</p>
+        <form onSubmit={onSubmit}>
+          <Field>
+            <Label htmlFor="name">Name</Label>
+            <Input type="text" id="name" name="name" />
+          </Field>
+
+          <Field>
+            <Label htmlFor="contract">Contract No.</Label>
+            <Input type="number" id="contract" name="contract" />
+          </Field>
+
+          <Button type='submit'>Save</Button>
+        </form>
       </Dialog>
     </div>
-  );
+  )
 }

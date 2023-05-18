@@ -20,7 +20,7 @@ export const sessionConfig = session({
   name: 'my-cool-cookie',
   cookie: {
     httpOnly: true,
-    maxAge: 1000 * 60,
+    maxAge: 1000 * 60 * 5,
   },
 })
 
