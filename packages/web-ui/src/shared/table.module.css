@@ -35,6 +35,7 @@
 .table__heading {
   padding-left: 1rem;
   padding-right: 1rem;
+  width: min-content;
 }
 
 :not(.table__head) > .table__row {

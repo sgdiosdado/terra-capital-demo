@@ -3,7 +3,7 @@ import { ReactElement, ReactNode } from 'react';
 import classes from './dialog.module.css';
 
 type DialogProps = {
-  trigger: ReactElement;
+  trigger?: ReactElement;
   children: ReactNode;
 } & DialogPrimitive.DialogProps;
 

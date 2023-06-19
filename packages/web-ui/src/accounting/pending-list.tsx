@@ -15,7 +15,7 @@ import {
   type PendingSpendings,
 } from './usePendingSpendings'
 import { Field, Label, Input } from '../shared/forms'
-import { FormEvent, SyntheticEvent } from 'react'
+import { FormEvent, useState } from 'react'
 import { Button } from '../shared/button'
 
 declare module '@tanstack/table-core' {
@@ -26,36 +26,46 @@ declare module '@tanstack/table-core' {
 
 const columnHelper = createColumnHelper<PendingSpendings>()
 
-const columns = [
-  columnHelper.accessor('development', {
-    header: () => 'Desarrollo',
-  }),
-  columnHelper.accessor('price', {
-    header: () => 'Precio sin descuento',
-    cell: info => currencyFormatter.format(info.getValue()),
-    meta: {
-      align: 'right',
-    },
-  }),
-  columnHelper.accessor('discount', {
-    header: () => 'Descuento',
-    cell: info => currencyFormatter.format(info.getValue()),
-    meta: {
-      align: 'right',
-    },
-  }),
-  columnHelper.accessor('saleType', {
-    header: () => 'Tipo de venta',
-    cell: info => (
-      <Pill variant={info.getValue() === 'financiado' ? 'danger' : undefined}>
-        {info.getValue()}
-      </Pill>
-    ),
-  }),
-]
-
 export function Pending() {
   const { data } = usePendingSpendings()
+  const [development, setDevelopment] = useState<PendingSpendings | null>(null);
+  const [isDialogOpened, setDialogOpened] = useState(false);
+
+  const openDetailDialog = (developmentId: number) => {
+    const foundDevelopment = data.find(record => record.id === developmentId);
+    if(!foundDevelopment) return
+    setDevelopment(foundDevelopment)
+    setDialogOpened(true)
+  }
+
+  const columns = [
+    columnHelper.accessor('development', {
+      header: () => 'Desarrollo',
+      cell: (info) => <span className='cursor-default' onClick={() => openDetailDialog(info.row.original.id)}>{info.getValue()}</span>
+    }),
+    columnHelper.accessor('price', {
+      header: () => 'Precio sin descuento',
+      cell: info => currencyFormatter.format(info.getValue()),
+      meta: {
+        align: 'right',
+      },
+    }),
+    columnHelper.accessor('discount', {
+      header: () => 'Descuento',
+      cell: info => currencyFormatter.format(info.getValue()),
+      meta: {
+        align: 'right',
+      },
+    }),
+    columnHelper.accessor('saleType', {
+      header: () => 'Tipo de venta',
+      cell: info => (
+        <Pill variant={info.getValue() === 'financiado' ? 'danger' : undefined}>
+          {info.getValue()}
+        </Pill>
+      ),
+    }),
+  ]
 
   const table = useReactTable<PendingSpendings>({
     data,
@@ -108,19 +118,30 @@ export function Pending() {
         </Table.Table>
       </Table.Root>
 
-      <Dialog trigger={<button type="button">Detalle de gasto</button>}>
-        <form onSubmit={onSubmit}>
+      <Dialog open={isDialogOpened} onOpenChange={setDialogOpened}>
+        <form onSubmit={onSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '1rem'}}>
+          <Input id='id' name='id' type='text' value={development?.id} hidden readOnly/>
           <Field>
-            <Label htmlFor="name">Name</Label>
-            <Input type="text" id="name" name="name" />
+            <Label htmlFor="development">Name</Label>
+            <Input type="text" id="development" name="development" value={development?.development} readOnly disabled/>
           </Field>
 
           <Field>
-            <Label htmlFor="contract">Contract No.</Label>
-            <Input type="number" id="contract" name="contract" />
+            <Label htmlFor="price">Price</Label>
+            <Input type="number" id="price" name="price" defaultValue={development?.price} />
           </Field>
 
-          <Button type='submit'>Save</Button>
+          <Field>
+            <Label htmlFor="discount">Discount</Label>
+            <Input type="number" id="discount" name="discount" defaultValue={development?.discount} />
+          </Field>
+          
+          <Field>
+            <Label htmlFor="saleType">Sale Type</Label>
+            <Input type="number" id="saleType" name="saleType" defaultValue={development?.saleType} />
+          </Field>
+
+          <Button type='submit'>Update</Button>
         </form>
       </Dialog>
     </div>
